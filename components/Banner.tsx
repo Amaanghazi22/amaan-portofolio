@@ -19,7 +19,7 @@ const Banner = () => {
         transition={{ duration: 0.5, delay: 0.7 }}
         className="text-4xl lgl:text-6xl font-titleFont font-semibold flex flex-col"
       >
-        Noor Mohammad.
+        Md Amaan Ghazi.
         <span className="text-textDark mt-2 lgl:mt-4">
           I build things for the web.
         </span>
@@ -30,19 +30,14 @@ const Banner = () => {
         transition={{ duration: 0.5, delay: 0.8 }}
         className="text-base md:max-w-[650px] text-textDark font-medium"
       >
-        I am a web developer with 4+ years of experience in React. I have a
+        I am a software developer with 1+ years of experience in React. I have a
         strong foundation in front-end & back-end development and am skilled in
         creating user-friendly and responsive web applications using React and
-        its ecosystem.{" "}
-        <a href="https://www.noormohammad.live/" target="_blank">
-          {" "}
-          <span className="text-textGreen inline-flex relative cursor-pointer h-7 overflow-x-hidden group">
-            Learn more
-            <span className="absolute w-full h-[1px] bg-textGreen left-0 bottom-1 -translate-x-[110%] group-hover:translate-x-0 transition-transform duration-500"></span>
-          </span>
-        </a>
+        its ecosystem. To strengthen my problem-solving abilities and core programming
+        skills, I’ve also solved <span className="text-textGreen font-semibold">400+ problems</span> on <a href="https://leetcode.com/u/amaan_gh22/" target="_blank" rel="noopener noreferrer" className="underline text-textGreen">LeetCode</a>.
       </motion.p>
-      <a href="https://github.com/noorjsdivs" target="_blank">
+
+      <a href="https://github.com/Amaanghazi22" target="_blank">
         <motion.button
           initial={{ y: 10, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}

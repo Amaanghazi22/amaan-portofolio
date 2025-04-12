@@ -17,48 +17,26 @@ const Archive = () => {
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 mt-10 lgl:px-10">
         <ArchiveCard
-          title="Educare Engligh Learning Academy"
-          des=" Lorem ipsum dolor sit amet consectetur adipisicing elit. Culpa
-            laudantium velit qui sint non, voluptates quo a veritatis."
-          listItem={["Reactjs", "Tailwind CSS", "getform.io"]}
-          link="https://www.educareenglishlearningacademy.com/"
+          title="Food Order App (Swiggy API Integration)"
+          des="Built a Swiggy-like food delivery app with features like dynamic restaurant listings, sorting, filtering, and featured deals."
+          listItem={["ReactJS", "Tailwind CSS", "Swiggy API", "REST"]}
+          link="https://github.com/Amaanghazi22/foodOrder"
+          showGitIcon={true}
         />
         <ArchiveCard
-          title="Cyber Security Blog with live comments section"
-          des=" Lorem ipsum dolor sit amet consectetur adipisicing elit. Culpa
-            laudantium velit qui sint non, voluptates quo a veritatis."
-          listItem={["Reactjs", "Tailwind CSS", "getform.io"]}
-          link="https://www.noormohmmad.com/"
+          title="C++ Banking System"
+          des="Developed an OOP-based online banking system with account creation, deposit/withdrawals, balance inquiries, and more, all handled via file I/O."
+          listItem={["C++", "OOPs", "File Handling"]}
+          link="https://github.com/Amaanghazi22/BankingSystem"
+          showGitIcon={true}
         />
         <ArchiveCard
-          title="ReactBD web development company"
-          des=" Lorem ipsum dolor sit amet consectetur adipisicing elit. Culpa
-            laudantium velit qui sint non, voluptates quo a veritatis."
-          listItem={["Reactjs", "Tailwind CSS", "getform.io"]}
-          link="https://reactbd.com/"
+          title="SSO Integration - Eventify"
+          des="Implemented the SSO enablement flow in Eventify’s admin panel, allowing event organizers to configure identity provider-based access for attendees and teams."
+          listItem={["SSO", "Secure Auth", "Admin Panel"]}
+          link="https://eventify.io/knowledge-base/how-to-enable-sso-for-your-event"
+          showGitIcon={false}
         />
-        <ArchiveCard
-          title="Amazon Clone with login, cart-option and payment intrigation."
-          des=" Lorem ipsum dolor sit amet consectetur adipisicing elit. Culpa
-            laudantium velit qui sint non, voluptates quo a veritatis."
-          listItem={["Reactjs", "Tailwind CSS", "getform.io"]}
-          link="https://amazonclone.reactbd.com/"
-        />
-        <ArchiveCard
-          title="JSON data (example data api for test projects)"
-          des=" Lorem ipsum dolor sit amet consectetur adipisicing elit. Culpa
-              laudantium velit qui sint non, voluptates quo a veritatis."
-          listItem={["Nextjs", "Tailwind CSS", "next-router"]}
-          link="https://jsondata.reactbd.com/"
-        />
-        <ArchiveCard
-          title="Dynamic Responsive Portfolio"
-          des=" Lorem ipsum dolor sit amet consectetur adipisicing elit. Culpa
-            laudantium velit qui sint non, voluptates quo a veritatis."
-          listItem={["Reactjs", "Tailwind CSS", "getform.io"]}
-          link="https://portfolioone.reactbd.com/"
-        />
-
         {showMore && (
           <>
             <motion.div
@@ -66,117 +44,39 @@ const Archive = () => {
               whileInView={{ opacity: 1 }}
               transition={{ delay: 0.1 }}
             >
-              <ArchiveCard
-                title="OREBI e-commerce Shopping store"
-                des=" Lorem ipsum dolor sit amet consectetur adipisicing elit. Culpa
-            laudantium velit qui sint non, voluptates quo a veritatis."
-                listItem={["Reactjs", "Tailwind CSS", "getform.io"]}
-                link="https://orebishopping.reactbd.com/"
-              />
+            <ArchiveCard
+              title="Football News App"
+              des="A dynamic football news web app that fetches real-time updates using the News API. Features league-based filtering, search functionality, and a clean, user-friendly UI."
+              listItem={["HTML", "CSS", "JavaScript", "News API"]}
+              link="https://github.com/Amaanghazi22/_Football_App"
+              showGitIcon={true}
+            />
             </motion.div>
             <motion.div
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
               transition={{ delay: 0.2 }}
             >
-              <ArchiveCard
-                title="Noor Online Shopping Store"
-                des=" Lorem ipsum dolor sit amet consectetur adipisicing elit. Culpa
-            laudantium velit qui sint non, voluptates quo a veritatis."
-                listItem={["Reactjs", "Tailwind CSS", "redux-toolkit"]}
-                link="https://noorshop.netlify.app/"
-              />
-            </motion.div>
-            <motion.div
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              transition={{ delay: 0.3 }}
-            >
-              <ArchiveCard
-                title="Personalized Blog"
-                des=" Lorem ipsum dolor sit amet consectetur adipisicing elit. Culpa
-            laudantium velit qui sint non, voluptates quo a veritatis."
-                listItem={["Nextjs", "Tailwind CSS", "next-auth", "firebase"]}
-                link="https://my-blog-delta-eight.vercel.app/"
-              />
-            </motion.div>
-            <motion.div
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              transition={{ delay: 0.4 }}
-            >
-              <ArchiveCard
-                title="Shoppers Online Shopping Market"
-                des=" Lorem ipsum dolor sit amet consectetur adipisicing elit. Culpa
-            laudantium velit qui sint non, voluptates quo a veritatis."
-                listItem={["Nextjs", "react-slick", "redux-toolkit"]}
-                link="https://shoppersyt.vercel.app/"
-              />
-            </motion.div>
-            <motion.div
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              transition={{ delay: 0.5 }}
-            >
-              <ArchiveCard
-                title="Single Page Personalized Portfolio"
-                des=" Lorem ipsum dolor sit amet consectetur adipisicing elit. Culpa
-            laudantium velit qui sint non, voluptates quo a veritatis."
-                listItem={["Reactjs", "Tailwind CSS", "vercel deploy"]}
-                link="https://portfoliotwo.reactbd.com/"
-              />
+            <ArchiveCard
+              title="Domain Integration"
+              des="Enabled custom domain support for Eventify landing pages, including subdomain setup, CNAME configuration, and support handoff."
+              listItem={["React", "PHP", "CPANEL"]}
+              link="https://eventify.io/knowledge-base/how-to-add-a-custom-domain-for-the-event-landing-page" 
+              showGitIcon={false}
+            />
             </motion.div>
             <motion.div
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
               transition={{ delay: 0.6 }}
             >
-              <ArchiveCard
-                title="Nextjs Dynamic Portfolio"
-                des=" Lorem ipsum dolor sit amet consectetur adipisicing elit. Culpa
-            laudantium velit qui sint non, voluptates quo a veritatis."
-                listItem={["Reactjs", "Tailwind CSS", "vercel deploy"]}
-                link="https://portfoliothree.reactbd.com/"
-              />
-            </motion.div>
-            <motion.div
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              transition={{ delay: 0.7 }}
-            >
-              <ArchiveCard
-                title="Bazaar - A Modern Shopping app"
-                des=" Lorem ipsum dolor sit amet consectetur adipisicing elit. Culpa
-            laudantium velit qui sint non, voluptates quo a veritatis."
-                listItem={["Reactjs", "Tailwind CSS", "vercel deploy"]}
-                link="https://bazar.reactbd.com/"
-              />
-            </motion.div>
-            <motion.div
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              transition={{ delay: 0.8 }}
-            >
-              <ArchiveCard
-                title="Blog101 Application"
-                des=" Lorem ipsum dolor sit amet consectetur adipisicing elit. Culpa
-            laudantium velit qui sint non, voluptates quo a veritatis."
-                listItem={["Nextjs", "Tailwind CSS", "next-auth"]}
-                link="https://blog101.reactbd.com/"
-              />
-            </motion.div>
-            <motion.div
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              transition={{ delay: 0.9 }}
-            >
-              <ArchiveCard
-                title="Todo application"
-                des=" Lorem ipsum dolor sit amet consectetur adipisicing elit. Culpa
-            laudantium velit qui sint non, voluptates quo a veritatis."
-                listItem={["Reactjs", "Tailwind CSS", "vercel deploy"]}
-                link="https://youtubetodo.vercel.app/"
-              />
+            <ArchiveCard
+              title="React Mini Projects"
+              des="A bundle of React projects including a theme switcher, password generator, GitHub API integration, and more, showcasing component reusability and UI logic handling."
+              listItem={["React", "JavaScript", "REST API", "Tailwind CSS"]}
+              link="https://github.com/Amaanghazi22/React-Course-with-projects"
+              showGitIcon={true}
+            />
             </motion.div>
           </>
         )}

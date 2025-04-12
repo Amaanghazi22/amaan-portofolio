@@ -10,34 +10,42 @@ const ReactBD = () => {
       className="w-full"
     >
       <h3 className="flex gap-1 font-medium text-xl font-titleFont">
-        Engineer
-        <span className="text-textGreen tracking-wide">@ReactBD</span>
+        Software Developer
+        <span className="text-textGreen tracking-wide">@TeksMobile</span>
       </h3>
       <p className="text-sm mt-1 font-medium text-textDark">
-        Jan 2023 - present
+        April 2024 - Present | Kolkata
       </p>
       <ul className="mt-6 flex flex-col gap-3">
         <li className="text-base flex gap-2 text-textDark">
           <span className="text-textGreen mt-1">
             <TiArrowForward />
           </span>
-          Write modern, performant, maintainable code for a diverse array of
-          client and internal projects
+          Developed key features for Eventify (SaaS Platform) including Budget Planner with Recharts visualization and a comprehensive Itinerary feature with timeline.
         </li>
         <li className="text-base flex gap-2 text-textDark">
           <span className="text-textGreen mt-1">
             <TiArrowForward />
           </span>
-          Work with a variety of different languages, platforms, frameworks, and
-          content management systems such as JavaScript, TypeScript, Gatsby,
-          React, Craft, WordPress, Prismic, and Netlify
+          Created a Gamification Quest system to track participant engagement, responses, leaderboards, and winner announcements, enhancing user interaction and event participation.
         </li>
         <li className="text-base flex gap-2 text-textDark">
           <span className="text-textGreen mt-1">
             <TiArrowForward />
           </span>
-          Communicate with multi-disciplinary teams of engineers, designers,
-          producers, and clients on a daily basis
+          Developed a comprehensive Lead Management system for Eventify CRM integrated with HubSpot API, implementing full user authentication flow with secure login page and registration process with validation.
+        </li>
+        <li className="text-base flex gap-2 text-textDark">
+          <span className="text-textGreen mt-1">
+            <TiArrowForward />
+          </span>
+          Engineered API integrations for third-party services, implementing OAuth protocols and ensuring data security across the platform.
+        </li>
+        <li className="text-base flex gap-2 text-textDark">
+          <span className="text-textGreen mt-1">
+            <TiArrowForward />
+          </span>
+          Tools & technologies used: React, Redux, Laravel, MySQL, Recharts, PHP, Bootstrap, Google APIs, oAuth.
         </li>
       </ul>
     </motion.div>
