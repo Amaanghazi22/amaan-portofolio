@@ -1,6 +1,5 @@
 import { profileImg } from "@/public/assets";
 import Image from "next/image";
-import SectionTitle from "./SectionTitle";
 import { AiFillThunderbolt } from "react-icons/ai";
 
 const About = () => {
@@ -23,7 +22,7 @@ const About = () => {
           <p>
             My philosophy centers on <span className="text-white">Product Engineering</span>—understanding the business logic and user lifecycle to build code that drives measurable growth. At <span className="text-cyanAccent">TeksMobile</span>, this mindset translated into a <span className="text-white">30% engagement increase</span> by architecting core modules for the Eventify platform.
           </p>
-          
+
           <div className="p-6 rounded-3xl bg-cyanAccent/5 border border-cyanAccent/10 backdrop-blur-sm">
             <h4 className="text-white font-bold mb-4 flex items-center gap-2">
               <span className="text-cyanAccent text-xl"><AiFillThunderbolt /></span>
@@ -46,7 +45,7 @@ const About = () => {
           <div className="relative aspect-square">
             <div className="absolute inset-0 rounded-3xl border-2 border-cyanAccent transform translate-x-4 translate-y-4 group-hover:translate-x-2 group-hover:translate-y-2 duration-500 opacity-20"></div>
             <div className="relative w-full h-full glass-card p-2 overflow-hidden">
-               <Image
+              <Image
                 className="rounded-2xl h-full w-full object-cover grayscale transition-all duration-700 group-hover:grayscale-0 group-hover:scale-110"
                 src={profileImg}
                 alt="profileImg"
