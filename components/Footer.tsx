@@ -1,34 +1,23 @@
-import { TbBrandGithub } from "react-icons/tb";
-import { SlSocialYoutube } from "react-icons/sl";
-import {
-  SlSocialLinkedin,
-  SlSocialFacebook,
-  SlSocialInstagram,
-} from "react-icons/sl";
+import { FiGithub, FiInstagram, FiLinkedin } from "react-icons/fi";
+import { profile } from "@/lib/data";
 
-const Footer = () => {
-  return (
-    <div className="mdl:hidden flex items-center justify-center w-full py-12 gap-6">
-      <a href="https://github.com/Amaanghazi22" target="_blank">
-        <span className="w-12 h-12 text-xl bg-white/5 border border-borderColor hover:border-cyanAccent/50 text-textLight rounded-full inline-flex items-center justify-center hover:text-cyanAccent cursor-pointer transition-all duration-300 shadow-accent-glow/5">
-          <TbBrandGithub />
-        </span>
-      </a>
-      <a
-        href="https://www.linkedin.com/in/md-amaan-ghazi-722313263"
-        target="_blank"
-      >
-        <span className="w-12 h-12 text-xl bg-white/5 border border-borderColor hover:border-fuchsiaAccent/50 text-textLight rounded-full inline-flex items-center justify-center hover:text-fuchsiaAccent cursor-pointer transition-all duration-300 shadow-accent-glow/5">
-          <SlSocialLinkedin />
-        </span>
-      </a>
-      <a href="https://www.instagram.com/amaan_gh22/" target="_blank">
-        <span className="w-12 h-12 text-xl bg-white/5 border border-borderColor hover:border-cyanAccent/50 text-textLight rounded-full inline-flex items-center justify-center hover:text-cyanAccent cursor-pointer transition-all duration-300 shadow-accent-glow/5">
-          <SlSocialInstagram />
-        </span>
-      </a>
+const Footer = () => (
+  <footer className="mx-auto flex max-w-container flex-col items-center justify-between gap-4 border-t border-line px-5 py-10 text-sm text-muted sml:flex-row">
+    <p>
+      Designed and built by {profile.name}, {new Date().getFullYear()}.
+    </p>
+    <div className="flex items-center gap-1">
+      {[
+        { href: profile.github, icon: <FiGithub />, label: "GitHub" },
+        { href: profile.linkedin, icon: <FiLinkedin />, label: "LinkedIn" },
+        { href: profile.instagram, icon: <FiInstagram />, label: "Instagram" },
+      ].map((s) => (
+        <a key={s.label} href={s.href} target="_blank" rel="noreferrer" aria-label={s.label} className="grid h-10 w-10 place-items-center rounded-full text-lg transition-colors hover:bg-white/[0.06] hover:text-white">
+          {s.icon}
+        </a>
+      ))}
     </div>
-  );
-};
+  </footer>
+);
 
 export default Footer;

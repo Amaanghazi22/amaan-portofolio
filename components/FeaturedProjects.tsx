@@ -1,138 +1,83 @@
-import { motion } from "framer-motion";
-import Image, { StaticImageData } from "next/image";
-import { TbBrandGithub } from "react-icons/tb";
-import { RxExternalLink } from "react-icons/rx";
-import { codeCollab, leadDemo } from "@/public/assets";
-import { AiFillThunderbolt } from "react-icons/ai";
+import Link from "next/link";
+import { FiArrowRight, FiArrowUpRight, FiCheck } from "react-icons/fi";
+import { featured, type Featured } from "@/lib/data";
+import { BuilderMock, ReviewMock, SmritiChat } from "./Mocks";
+import { Chip, Reveal, SectionHeading, SpotlightCard } from "./ui";
 
-interface ProjectSectionProps {
-  title: string;
-  subTitle: string;
-  description: string;
-  logic: string[];
-  tech: string[];
-  image: StaticImageData;
-  link?: string;
-  github?: string;
-  reverse: boolean;
-}
+const tone = {
+  cyan: { rgb: "34, 211, 238", text: "text-accent", dot: "bg-accent" },
+  violet: { rgb: "167, 139, 250", text: "text-violet", dot: "bg-violet" },
+  amber: { rgb: "251, 191, 36", text: "text-amber", dot: "bg-amber" },
+};
 
-const ProjectSection = ({ 
-  title, subTitle, description, logic, tech, image, link, github, reverse 
-}: ProjectSectionProps) => (
-  <motion.div 
-    initial={{ opacity: 0, y: 50 }}
-    whileInView={{ opacity: 1, y: 0 }}
-    transition={{ duration: 0.8 }}
-    className={`flex flex-col ${reverse ? 'lgl:flex-row-reverse' : 'lgl:flex-row'} gap-12 py-24 border-b border-borderColor last:border-none`}
-  >
-    <div className="w-full lgl:w-1/2 flex flex-col gap-6">
-      <div>
-        <span className="text-cyanAccent font-monoFont tracking-[0.2em] font-bold text-xs uppercase">{subTitle}</span>
-        <h2 className="text-4xl lgl:text-5xl font-titleFont font-black text-white mt-2">{title}</h2>
-      </div>
-      
-      <p className="text-lg text-textDark font-medium leading-relaxed">
-        {description}
-      </p>
+const visual = { smriti: <SmritiChat />, builders: <BuilderMock />, abstracts: <ReviewMock /> } as Record<string, JSX.Element>;
 
-      {logic && (
-        <div className="p-6 rounded-3xl bg-white/5 border border-borderColor space-y-4 shadow-accent-glow/5">
-          <h4 className="text-white font-bold flex items-center gap-2">
-            <AiFillThunderbolt className="text-cyanAccent" /> Technical Architecture
-          </h4>
-          <div className="flex flex-col gap-3 font-monoFont text-sm text-textDark">
-            {logic.map((step: string, i: number) => (
-              <div key={i} className="flex gap-3 items-start">
-                <span className="text-cyanAccent font-bold">{i + 1}.</span>
-                <span>{step}</span>
-              </div>
-            ))}
+const Project = ({ p, index }: { p: Featured; index: number }) => {
+  const t = tone[p.accent];
+  return (
+    <Reveal>
+      <SpotlightCard color={t.rgb} className="hover:bg-white/[0.04]">
+        <div className={`grid items-center gap-10 p-6 sml:p-8 lgl:grid-cols-2 lgl:gap-14 lgl:p-12 ${index % 2 ? "lgl:[&>*:first-child]:order-2" : ""}`}>
+          <div className="flex flex-col gap-5">
+            <div className="flex flex-wrap items-center gap-3">
+              <span className={`font-monoFont text-xs uppercase tracking-[0.2em] ${t.text}`}>{p.eyebrow}</span>
+              {p.badge && (
+                <span className="flex items-center gap-1.5 rounded-full bg-emerald-400/10 px-2.5 py-0.5 text-[11px] font-semibold text-emerald-300">
+                  <span className="h-1.5 w-1.5 animate-pulseDot rounded-full bg-emerald-400" /> {p.badge}
+                </span>
+              )}
+            </div>
+            <h3 className="font-titleFont text-3xl font-bold tracking-tight text-white lgl:text-4xl">{p.title}</h3>
+            <p className="leading-relaxed text-muted">{p.pitch}</p>
+            <ul className="flex flex-col gap-2.5">
+              {p.points.map((pt) => (
+                <li key={pt} className="flex gap-3 text-sm leading-relaxed text-white/80">
+                  <FiCheck className={`mt-0.5 shrink-0 ${t.text}`} />
+                  {pt}
+                </li>
+              ))}
+            </ul>
+            <div className="flex flex-wrap gap-2">
+              {p.tech.map((x) => (
+                <Chip key={x}>{x}</Chip>
+              ))}
+            </div>
+            <div className="mt-2 flex flex-wrap gap-3">
+              {p.caseStudy && (
+                <Link href={p.caseStudy} className="btn-primary">
+                  Read the case study <FiArrowRight />
+                </Link>
+              )}
+              {p.live && (
+                <a href={p.live} target="_blank" rel="noreferrer" className="btn-ghost">
+                  {p.slug === "smriti" ? "Try it live" : "Visit Eventify"} <FiArrowUpRight />
+                </a>
+              )}
+            </div>
+          </div>
+          <div className="relative">
+            <div aria-hidden className={`absolute inset-10 -z-10 rounded-full opacity-30 blur-[80px] ${t.dot}`} />
+            {visual[p.slug]}
           </div>
         </div>
-      )}
-
-      <div className="flex flex-wrap gap-2">
-        {tech.map((t: string, i: number) => (
-          <span key={i} className="text-[11px] font-monoFont bg-white/5 border border-borderColor px-3 py-1 rounded-full text-textLight">
-            {t}
-          </span>
-        ))}
-      </div>
-
-      <div className="flex gap-6 items-center mt-4">
-        {github && (
-          <a href={github} target="_blank" className="flex items-center gap-2 text-textLight hover:text-cyanAccent duration-300 font-bold tracking-widest text-sm">
-            <TbBrandGithub className="text-2xl" /> SOURCE CODE
-          </a>
-        )}
-        {link && (
-          <a href={link} target="_blank" className="flex items-center gap-2 text-cyanAccent hover:text-fuchsiaAccent duration-300 font-bold tracking-widest text-sm">
-            <RxExternalLink className="text-2xl" /> LIVE PLATFORM
-          </a>
-        )}
-      </div>
-    </div>
-
-    <div className="w-full lgl:w-1/2 group">
-      <div className="relative rounded-3xl overflow-hidden glass-card p-2">
-        <Image 
-          src={image} 
-          alt={title}
-          className="rounded-2xl transition-transform duration-700 group-hover:scale-105"
-        />
-        <div className="absolute inset-0 bg-cyanAccent/5 group-hover:bg-transparent duration-500"></div>
-      </div>
-    </div>
-  </motion.div>
-);
-
-const FeaturedProjects = () => {
-  return (
-    <section id="project" className="max-w-container mx-auto py-24 px-4 overflow-hidden">
-      <div className="flex flex-col items-center text-center mb-16">
-        <h2 className="text-4xl lgl:text-6xl font-titleFont font-black text-white tracking-tight">
-          Engineering Showcase<span className="text-cyanAccent">.</span>
-        </h2>
-        <p className="max-w-[700px] text-textDark font-medium mt-4">
-          A deep dive into systems and platforms where I've bridged frontend elegance 
-          with robust backend logic and real-time synchronization.
-        </p>
-      </div>
-
-      <ProjectSection 
-        title="CollabCode"
-        subTitle="Real-Time Collaborative Systems"
-        description="A flagship engineering project enabling multi-user live code editing. This goes beyond simple UI, tackling the complex problem of state synchronization in distributed environments."
-        logic={[
-          "User joins session establishing a persistent WebSocket connection.",
-          "Yjs CRDTs manage document state to resolve conflicts locally and globally.",
-          "Monaco Editor binding captures changes and propagates CRDT updates.",
-          "Live cursors and presence state synced via ephemeral Socket.io events."
-        ]}
-        tech={["React", "TypeScript", "Node.js", "Socket.io", "Yjs", "Monaco Editor", "PostgreSQL"]}
-        image={codeCollab}
-        github="https://github.com/Amaanghazi22/collaborative-code-editor"
-        reverse={false}
-      />
-
-      <ProjectSection 
-        title="Eventify SaaS"
-        subTitle="Lead Lifecycle & CRM Automation"
-        description="A production-grade lead automation platform. I architected the end-to-end scheduling logic that bridges lead acquisition with sales CRM pipelines."
-        logic={[
-          "Lead interaction triggers automated SmartLead/WhatsApp sequences.",
-          "Meeting engine queries Google Calendar API for real-time slot availability.",
-          "Automated reservation logic creates calendar events and meeting links.",
-          "HubSpot CRM pipeline auto-updates with booking status and lead score."
-        ]}
-        tech={["Next.js", "Laravel", "Google API", "HubSpot API", "MySQL", "CI/CD"]}
-        image={leadDemo}
-        link="https://eventify.io/"
-        reverse={true}
-      />
-    </section>
+      </SpotlightCard>
+    </Reveal>
   );
 };
+
+const FeaturedProjects = () => (
+  <section id="work" className="mx-auto max-w-container px-5 py-28">
+    <SectionHeading
+      kicker="Selected work"
+      title="Things I've built and shipped"
+      sub="One product of my own with real users, and two large platforms I built at Eventify."
+    />
+    <div className="flex flex-col gap-8">
+      {featured.map((p, i) => (
+        <Project key={p.slug} p={p} index={i} />
+      ))}
+    </div>
+  </section>
+);
 
 export default FeaturedProjects;

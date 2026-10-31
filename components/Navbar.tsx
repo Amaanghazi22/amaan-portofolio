@@ -1,306 +1,133 @@
-import { useRef } from "react";
-import { logo } from "@/public/assets";
-import Image from "next/image";
+import { AnimatePresence, motion, useScroll, useSpring } from "framer-motion";
 import Link from "next/link";
-import { useState } from "react";
-import { TbBrandGithub } from "react-icons/tb";
-import { SlSocialYoutube } from "react-icons/sl";
-import {
-  SlSocialLinkedin,
-  SlSocialFacebook,
-  SlSocialInstagram,
-} from "react-icons/sl";
-import { MdOutlineClose } from "react-icons/md";
-import { motion } from "framer-motion";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
+import { FiCommand, FiMenu, FiX } from "react-icons/fi";
+import { profile } from "@/lib/data";
+import CommandMenu from "./CommandMenu";
+
+const links = [
+  { id: "work", label: "Work" },
+  { id: "experience", label: "Experience" },
+  { id: "skills", label: "Skills" },
+  { id: "about", label: "About" },
+  { id: "contact", label: "Contact" },
+];
 
 const Navbar = () => {
-  const ref = useRef<string | any>("");
-  const [show, setShow] = useState(false);
-  const handleScroll = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
-    e.preventDefault();
-    setShow(false);
-    const href = e.currentTarget.href;
-    const targetId = href.replace(/.*\#/, "");
-    const elem = document.getElementById(targetId);
-    elem?.scrollIntoView({
-      behavior: "smooth",
-    });
-    // Update the class name of the clicked link
-    const links = document.querySelectorAll(".nav-link");
-    links.forEach((link) => {
-      link.classList.remove("active");
-    });
-    e.currentTarget.classList.add("active");
-  };
+  const router = useRouter();
+  const home = router.pathname === "/";
+  const [scrolled, setScrolled] = useState(false);
+  const [current, setCurrent] = useState("");
+  const [mobile, setMobile] = useState(false);
+  const [menu, setMenu] = useState(false);
+  const { scrollYProgress } = useScroll();
+  const progress = useSpring(scrollYProgress, { stiffness: 120, damping: 30 });
 
-  function handleClick(e: any) {
-    if (e.target.contains(ref.current)) {
-      // do something with myRef.current
-      setShow(false);
-    }
-  }
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 24);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  // Highlights the link of the section in the middle of the screen.
+  useEffect(() => {
+    if (!home) return;
+    const observer = new IntersectionObserver(
+      (entries) => entries.forEach((e) => e.isIntersecting && setCurrent(e.target.id)),
+      { rootMargin: "-45% 0px -50% 0px" },
+    );
+    links.forEach((l) => {
+      const el = document.getElementById(l.id);
+      if (el) observer.observe(el);
+    });
+    return () => observer.disconnect();
+  }, [home]);
+
+  useEffect(() => {
+    document.body.style.overflow = mobile ? "hidden" : "";
+  }, [mobile]);
+
+  const href = (id: string) => (home ? `#${id}` : `/#${id}`);
+
   return (
-    <div className="w-full h-20 lg:h-[12vh] sticky top-0 z-50 bg-bodyColor/70 backdrop-blur-xl px-4 border-b border-borderColor">
-      <div className="max-w-container h-full mx-auto py-1 font-titleFont flex items-center justify-between ">
-        {/* ============ Logo Start here ============ */}
-        <Link href="/">
+    <>
+      <header className="fixed inset-x-0 top-0 z-50 flex justify-center px-4 pt-4">
+        <nav
+          className={`flex w-full items-center justify-between rounded-full border px-3 py-2 transition-all duration-500 ${
+            scrolled ? "max-w-3xl border-line bg-ink/70 shadow-[0_8px_40px_rgba(0,0,0,0.5)] backdrop-blur-xl" : "max-w-container border-transparent bg-transparent"
+          }`}
+        >
+          <Link href="/" className="group flex items-center gap-2 rounded-full py-1 pl-2 pr-3" aria-label="Home">
+            <span className="grid h-8 w-8 place-items-center rounded-full bg-gradient-to-br from-accent to-violet font-titleFont text-sm font-bold text-ink transition-transform duration-500 group-hover:rotate-[360deg]">
+              A
+            </span>
+            <span className="hidden font-titleFont text-sm font-semibold text-white sml:inline">Amaan Ghazi</span>
+          </Link>
+
+          <ul className="hidden items-center gap-1 mdl:flex">
+            {links.map((l) => (
+              <li key={l.id}>
+                <Link href={href(l.id)} className="relative block rounded-full px-4 py-2 text-sm text-white/70 transition-colors hover:text-white">
+                  {current === l.id && home && (
+                    <motion.span layoutId="nav-pill" className="absolute inset-0 rounded-full bg-white/[0.08]" transition={{ type: "spring", stiffness: 400, damping: 32 }} />
+                  )}
+                  <span className="relative">{l.label}</span>
+                </Link>
+              </li>
+            ))}
+          </ul>
+
+          <div className="flex items-center gap-2">
+            <button
+              onClick={() => setMenu(true)}
+              className="hidden items-center gap-1.5 rounded-full border border-line px-3 py-1.5 font-monoFont text-xs text-muted transition-colors hover:border-white/20 hover:text-white sml:flex"
+              aria-label="Open quick menu"
+            >
+              <FiCommand /> K
+            </button>
+            <Link href={href("contact")} className="hidden rounded-full bg-white px-4 py-2 text-sm font-semibold text-ink transition-colors hover:bg-accent mdl:block">
+              Let&apos;s talk
+            </Link>
+            <button onClick={() => setMobile(true)} className="grid h-10 w-10 place-items-center rounded-full text-xl text-white mdl:hidden" aria-label="Open menu">
+              <FiMenu />
+            </button>
+          </div>
+        </nav>
+        <motion.div className="fixed inset-x-0 top-0 h-[2px] origin-left bg-gradient-to-r from-accent to-violet" style={{ scaleX: progress }} />
+      </header>
+
+      <AnimatePresence>
+        {mobile && (
           <motion.div
+            className="fixed inset-0 z-[60] flex flex-col bg-ink/95 px-6 pt-6 backdrop-blur-xl mdl:hidden"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ duration: 0.1 }}
-            className="p-1 glass-card border-white/10 hover:border-cyanAccent/50 transition-all duration-300"
+            exit={{ opacity: 0 }}
           >
-            <Image className="w-10 h-10" src={logo} alt="logo" />
+            <button onClick={() => setMobile(false)} className="ml-auto grid h-10 w-10 place-items-center text-2xl text-white" aria-label="Close menu">
+              <FiX />
+            </button>
+            <ul className="mt-8 flex flex-col gap-2">
+              {links.map((l, i) => (
+                <motion.li key={l.id} initial={{ opacity: 0, x: -16 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.05 * i }}>
+                  <Link href={href(l.id)} onClick={() => setMobile(false)} className="block py-3 font-titleFont text-3xl font-semibold text-white">
+                    <span className="mr-3 font-monoFont text-sm text-accent">0{i + 1}</span>
+                    {l.label}
+                  </Link>
+                </motion.li>
+              ))}
+            </ul>
+            <a href={`mailto:${profile.email}`} className="btn-primary mt-10 justify-center">
+              Email me
+            </a>
           </motion.div>
-        </Link>
-        {/* ============ Logo End here ============== */}
-        {/* ============ ListItem Start here ======== */}
-        <div className="hidden mdl:inline-flex items-center gap-10">
-          <ul className="flex text-[12px] gap-10 font-monoFont uppercase tracking-widest">
-            <Link
-              className="flex items-center gap-1 font-bold text-textDark hover:text-cyanAccent cursor-pointer duration-300 nav-link group"
-              href="#home"
-              onClick={handleScroll}
-            >
-              <motion.li
-                initial={{ y: -10, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                transition={{ duration: 0.1 }}
-              >
-                Home
-              </motion.li>
-            </Link>
-
-            <Link
-              className="flex items-center gap-1 font-bold text-textDark hover:text-cyanAccent cursor-pointer duration-300 nav-link group"
-              href="#about"
-              onClick={handleScroll}
-            >
-              <motion.li
-                initial={{ y: -10, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                transition={{ duration: 0.1, delay: 0.1 }}
-              >
-                <span className="text-cyanAccent/50 group-hover:text-cyanAccent transition-colors">01.</span>
-                About
-              </motion.li>
-            </Link>
-            <Link
-              className="flex items-center gap-1 font-bold text-textDark hover:text-cyanAccent cursor-pointer duration-300 nav-link group"
-              href="#experience"
-              onClick={handleScroll}
-            >
-              <motion.li
-                initial={{ y: -10, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                transition={{ duration: 0.1, delay: 0.2 }}
-              >
-                <span className="text-cyanAccent/50 group-hover:text-cyanAccent transition-colors">02.</span>
-                Experience
-              </motion.li>
-            </Link>
-            <Link
-              className="flex items-center gap-1 font-bold text-textDark hover:text-cyanAccent cursor-pointer duration-300 nav-link group"
-              href="#projects"
-              onClick={handleScroll}
-            >
-              <motion.li
-                initial={{ y: -10, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                transition={{ duration: 0.1, delay: 0.3 }}
-              >
-                <span className="text-cyanAccent/50 group-hover:text-cyanAccent transition-colors">03.</span>
-                Projects
-              </motion.li>
-            </Link>
-            <Link
-              className="flex items-center gap-1 font-bold text-textDark hover:text-cyanAccent cursor-pointer duration-300 nav-link group"
-              href="#contact"
-              onClick={handleScroll}
-            >
-              <motion.li
-                initial={{ y: -10, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                transition={{ duration: 0.1, delay: 0.4 }}
-              >
-                <span className="text-cyanAccent/50 group-hover:text-cyanAccent transition-colors">04.</span>
-                Contact
-              </motion.li>
-            </Link>
-          </ul>
-          <a href="https://drive.google.com/file/d/1ViORkeLCG7iDa5yfAnmPe2xmW-6pDsxH/view" target="_blank">
-            <motion.button
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.5 }}
-              className="px-6 py-2 rounded-full text-cyanAccent text-[12px] border border-cyanAccent/30 hover:border-cyanAccent hover:bg-cyanAccent/5 font-bold duration-300 shadow-accent-glow/20 font-monoFont uppercase tracking-widest"
-            >
-              Resume
-            </motion.button>
-          </a>
-        </div>
-        {/* ============== Small Icon Start here =========== */}
-        <div
-          onClick={() => setShow(true)}
-          className="w-6 h-5 flex flex-col justify-between items-center mdl:hidden text-4xl text-cyanAccent cursor-pointer overflow-hidden group"
-        >
-          <span className="w-full h-[2px] bg-cyanAccent inline-flex transform group-hover:translate-x-2 transition-all ease-in-out duration-300"></span>
-          <span className="w-full h-[2px] bg-cyanAccent inline-flex transform translate-x-3 group-hover:translate-x-0 transition-all ease-in-out duration-300"></span>
-          <span className="w-full h-[2px] bg-cyanAccent inline-flex transform translate-x-1 group-hover:translate-x-3 transition-all ease-in-out duration-300"></span>
-        </div>
-        {show && (
-          <div
-            ref={(node) => (ref.current = node)}
-            onClick={handleClick}
-            className="absolute mdl:hidden top-0 right-0 w-full h-screen bg-black/60 backdrop-blur-sm flex flex-col items-end"
-          >
-            <motion.div
-              initial={{ x: 20, opacity: 0 }}
-              animate={{ x: 0, opacity: 1 }}
-              transition={{ duration: 0.1 }}
-              className="w-[80%] h-full overflow-y-scroll scrollbarHide bg-bodyColor border-l border-white/10 flex flex-col items-center px-4 py-10 relative"
-            >
-              <MdOutlineClose
-                onClick={() => setShow(false)}
-                className="text-3xl text-cyanAccent cursor-pointer hover:text-fuchsiaAccent absolute top-4 right-4"
-              />
-              <div className="flex flex-col items-center gap-7">
-                <ul className="flex flex-col text-base gap-7">
-                  <Link
-                    className="flex items-center gap-1 font-medium text-textDark hover:text-cyanAccent cursor-pointer duration-300 nav-link"
-                    href="#home"
-                    onClick={handleScroll}
-                  >
-                    <motion.li
-                      initial={{ x: 20, opacity: 0 }}
-                      animate={{ x: 0, opacity: 1 }}
-                      transition={{ duration: 0.2, delay: 0.1, ease: "easeIn" }}
-                    >
-                      Home
-                    </motion.li>
-                  </Link>
-
-                  <Link
-                    className="flex items-center gap-1 font-medium text-textDark hover:text-cyanAccent cursor-pointer duration-300 nav-link"
-                    href="#about"
-                    onClick={handleScroll}
-                  >
-                    <motion.li
-                      initial={{ x: 20, opacity: 0 }}
-                      animate={{ x: 0, opacity: 1 }}
-                      transition={{ duration: 0.2, delay: 0.2, ease: "easeIn" }}
-                    >
-                      <span className="text-cyanAccent">01.</span>
-                      About
-                    </motion.li>
-                  </Link>
-                  <Link
-                    className="flex items-center gap-1 font-medium text-textDark hover:text-cyanAccent cursor-pointer duration-300 nav-link"
-                    href="#experience"
-                    onClick={handleScroll}
-                  >
-                    <motion.li
-                      initial={{ x: 20, opacity: 0 }}
-                      animate={{ x: 0, opacity: 1 }}
-                      transition={{ duration: 0.2, delay: 0.3, ease: "easeIn" }}
-                    >
-                      <span className="text-cyanAccent">02.</span>
-                      Experience
-                    </motion.li>
-                  </Link>
-                  <Link
-                    className="flex items-center gap-1 font-medium text-textDark hover:text-cyanAccent cursor-pointer duration-300 nav-link"
-                    href="#project"
-                    onClick={handleScroll}
-                  >
-                    <motion.li
-                      initial={{ x: 20, opacity: 0 }}
-                      animate={{ x: 0, opacity: 1 }}
-                      transition={{ duration: 0.2, delay: 0.4, ease: "easeIn" }}
-                    >
-                      <span className="text-cyanAccent">03.</span>
-                      Project
-                    </motion.li>
-                  </Link>
-                  <Link
-                    className="flex items-center gap-1 font-medium text-textDark hover:text-cyanAccent cursor-pointer duration-300 nav-link"
-                    href="#contact"
-                    onClick={handleScroll}
-                  >
-                    <motion.li
-                      initial={{ x: 20, opacity: 0 }}
-                      animate={{ x: 0, opacity: 1 }}
-                      transition={{ duration: 0.2, delay: 0.5, ease: "easeIn" }}
-                    >
-                      <span className="text-cyanAccent">04.</span>
-                      Contact
-                    </motion.li>
-                  </Link>
-                </ul>
-                <a href="https://drive.google.com/file/d/1ViORkeLCG7iDa5yfAnmPe2xmW-6pDsxH/view" target="_blank">
-                  <motion.button
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ delay: 0.6, ease: "easeIn" }}
-                    className="w-40 h-12 rounded-full text-cyanAccent text-[13px] border-2 border-cyanAccent hover:bg-cyanAccent hover:text-bodyColor font-bold duration-300"
-                  >
-                    RESUME
-                  </motion.button>
-                </a>
-                <div className="flex gap-4">
-                  <motion.a
-                    initial={{ y: 20, opacity: 0 }}
-                    animate={{ y: 0, opacity: 1 }}
-                    transition={{ delay: 0.8, ease: "easeIn" }}
-                    href="https://github.com/Amaanghazi22"
-                    target="_blank"
-                  >
-                    <span className="w-10 h-10 text-xl bg-bodyColor border-[1px] border-zinc-700 hover:border-cyanAccent text-zinc-200 rounded-full inline-flex items-center justify-center hover:text-cyanAccent cursor-pointer hover:-translate-y-2 transition-all duration-300">
-                      <TbBrandGithub />
-                    </span>
-                  </motion.a>
-                  <motion.a
-                    initial={{ y: 20, opacity: 0 }}
-                    animate={{ y: 0, opacity: 1 }}
-                    transition={{ delay: 0.9, ease: "easeIn" }}
-                    href="https://www.linkedin.com/in/md-amaan-ghazi-722313263"
-                    target="_blank"
-                  >
-                    <span className="w-10 h-10 text-xl bg-bodyColor border-[1px] border-zinc-700 hover:border-fuchsiaAccent text-zinc-200 rounded-full inline-flex items-center justify-center hover:text-fuchsiaAccent cursor-pointer hover:-translate-y-2 transition-all duration-300">
-                      <SlSocialLinkedin />
-                    </span>
-                  </motion.a>
-                  <motion.a
-                    initial={{ y: 20, opacity: 0 }}
-                    animate={{ y: 0, opacity: 1 }}
-                    transition={{ delay: 1, ease: "easeIn" }}
-                    href="https://www.instagram.com/amaan_gh22/"
-                    target="_blank"
-                  >
-                    <span className="w-10 h-10 text-xl bg-bodyColor border-[1px] border-zinc-700 hover:border-cyanAccent text-zinc-200 rounded-full inline-flex items-center justify-center hover:text-cyanAccent cursor-pointer hover:-translate-y-2 transition-all duration-300">
-                      <SlSocialInstagram />
-                    </span>
-                  </motion.a>
-                </div>
-              </div>
-
-              <motion.a
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 1.2, ease: "easeIn" }}
-                className="text-sm w-72 tracking-widest text-textGreen text-center mt-4"
-                href="mailto:amaan083.hitit2020@gmail.com"
-              >
-                <p>amaan083.hitit2020@gmail.com</p>
-              </motion.a>
-            </motion.div>
-          </div>
         )}
-        {/* ============== Small Icon End here ============= */}
+      </AnimatePresence>
 
-        {/* ============ ListItem End here ========== */}
-      </div>
-    </div>
+      <CommandMenu open={menu} setOpen={setMenu} />
+    </>
   );
 };
 

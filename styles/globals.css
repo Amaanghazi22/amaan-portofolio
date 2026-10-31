@@ -1,60 +1,70 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@500;600;700&display=swap");
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 88px;
+  }
   body {
-    @apply bg-bodyColor text-textLight font-bodyFont antialiased selection:bg-cyanAccent/30;
-    cursor: default;
+    @apply bg-ink font-bodyFont text-white/90 antialiased selection:bg-accent/30;
+  }
+  :focus-visible {
+    @apply outline-none ring-2 ring-accent/70 ring-offset-2 ring-offset-ink;
   }
 }
 
 @layer components {
-  .glass-card {
-    @apply bg-glass backdrop-blur-3xl border border-borderColor rounded-3xl transition-all duration-500 hover:border-white/20 hover:bg-white/[0.05] shadow-premium-card;
-  }
-  
-  .bento-grid {
-    @apply grid grid-cols-1 md:grid-cols-12 gap-4 auto-rows-[300px];
-  }
-
   .text-gradient {
-    @apply bg-text-gradient bg-clip-text text-transparent;
+    background-image: linear-gradient(100deg, #22d3ee 0%, #e0f2fe 35%, #a78bfa 70%, #22d3ee 100%);
+    background-size: 200% auto;
+    @apply animate-shine bg-clip-text text-transparent;
   }
-
-  .accent-glow-card {
-    @apply relative overflow-hidden;
+  .btn-primary {
+    @apply inline-flex items-center gap-2 rounded-full bg-white px-6 py-3 text-sm font-semibold text-ink transition-all duration-300 hover:-translate-y-0.5 hover:bg-accent hover:shadow-[0_8px_30px_rgba(34,211,238,0.35)];
   }
-
-  .accent-glow-card::after {
-    content: "";
-    @apply absolute -inset-[1px] bg-gradient-to-r from-cyanAccent/20 to-fuchsiaAccent/20 rounded-3xl opacity-0 transition-opacity duration-500 blur-sm pointer-events-none;
+  .btn-ghost {
+    @apply inline-flex items-center gap-2 rounded-full border border-line bg-white/[0.03] px-6 py-3 text-sm font-semibold text-white transition-all duration-300 hover:-translate-y-0.5 hover:border-white/20 hover:bg-white/[0.07];
   }
-
-  .accent-glow-card:hover::after {
-    @apply opacity-100;
+  .link-underline {
+    @apply relative after:absolute after:-bottom-0.5 after:left-0 after:h-px after:w-full after:origin-right after:scale-x-0 after:bg-current after:transition-transform after:duration-300 hover:after:origin-left hover:after:scale-x-100;
   }
 }
 
-/* Custom scrollbar */
+/* Faint grid that fades out, behind the hero */
+.bg-grid {
+  background-image: linear-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+  background-size: 56px 56px;
+  mask-image: radial-gradient(ellipse at 50% 30%, black 20%, transparent 70%);
+}
+
 ::-webkit-scrollbar {
   width: 8px;
 }
 ::-webkit-scrollbar-track {
-  @apply bg-bodyColor;
+  background: #07080a;
 }
 ::-webkit-scrollbar-thumb {
-  @apply bg-white/5 rounded-full border-2 border-bodyColor hover:bg-cyanAccent/40 transition-colors;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(34, 211, 238, 0.4);
 }
 
-/* Grain Effect */
-.grainy {
-  position: relative;
-}
-.grainy::before {
-  content: "";
-  @apply fixed inset-0 pointer-events-none opacity-[0.03] z-[100];
-  background-image: url("https://grainy-gradients.vercel.app/noise.svg");
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
 }

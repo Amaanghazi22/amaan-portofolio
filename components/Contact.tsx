@@ -1,26 +1,44 @@
-const Contact = () => {
-  return (
-    <section
-      id="contact"
-      className="max-w-contentContainer mx-auto py-24 xl:py-48 flex flex-col gap-4 items-center justify-center text-center"
-    >
-      <p className="font-monoFont text-sm text-cyanAccent font-bold tracking-[0.3em] uppercase">
-        Ready for the next challenge?
-      </p>
-      <h2 className="font-titleFont text-5xl lgl:text-7xl font-black text-white tracking-tight">
-        Get In Touch<span className="text-cyanAccent">.</span>
-      </h2>
-      <p className="max-w-[600px] text-textDark font-medium leading-relaxed mt-4">
-        I’m currently open to new opportunities where I can contribute to complex 
-        engineering challenges and help build impactful digital products. 
-        Whether you have a question or just want to say hi, my inbox is always open.
-      </p>
+import { useState } from "react";
+import { FiArrowUpRight, FiCheck, FiCopy, FiMail } from "react-icons/fi";
+import { profile } from "@/lib/data";
+import { Reveal } from "./ui";
 
-      <a href="mailto:amaan083.hitit2020@gmail.com" className="mt-10">
-        <button className="px-10 py-5 border border-cyanAccent/30 text-cyanAccent font-monoFont text-sm font-bold tracking-widest rounded-full hover:bg-cyanAccent hover:text-bodyColor duration-300 shadow-accent-glow hover:border-cyanAccent uppercase">
-          Say Hello
-        </button>
-      </a>
+const Contact = () => {
+  const [copied, setCopied] = useState(false);
+  const copy = () =>
+    navigator.clipboard?.writeText(profile.email).then(() => {
+      setCopied(true);
+      setTimeout(() => setCopied(false), 1800);
+    });
+
+  return (
+    <section id="contact" className="mx-auto max-w-container px-5 py-28">
+      <Reveal>
+        <div className="relative overflow-hidden rounded-[2rem] border border-line bg-surface px-6 py-16 text-center sml:px-12 lgl:py-24">
+          <div aria-hidden className="bg-grid pointer-events-none absolute inset-0" />
+          <div aria-hidden className="pointer-events-none absolute left-1/2 top-0 h-72 w-[600px] -translate-x-1/2 rounded-full bg-accent/15 blur-[120px]" />
+          <div className="relative">
+            <span className="font-monoFont text-xs uppercase tracking-[0.25em] text-accent">Contact</span>
+            <h2 className="mx-auto mt-4 max-w-2xl font-titleFont text-4xl font-bold tracking-tight text-white lgl:text-6xl">
+              Let&apos;s build something <span className="text-gradient">people use</span>
+            </h2>
+            <p className="mx-auto mt-5 max-w-xl leading-relaxed text-muted">
+              I&apos;m open to full-stack and AI product roles. Whether you have a role, a project or just a question, my inbox is open.
+            </p>
+            <div className="mt-10 flex flex-wrap items-center justify-center gap-3">
+              <a href={`mailto:${profile.email}`} className="btn-primary">
+                <FiMail /> Say hello
+              </a>
+              <button onClick={copy} className="btn-ghost" aria-live="polite">
+                {copied ? <FiCheck className="text-emerald-400" /> : <FiCopy />} {copied ? "Copied" : profile.email}
+              </button>
+              <a href={profile.linkedin} target="_blank" rel="noreferrer" className="btn-ghost">
+                LinkedIn <FiArrowUpRight />
+              </a>
+            </div>
+          </div>
+        </div>
+      </Reveal>
     </section>
   );
 };

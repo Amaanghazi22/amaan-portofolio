@@ -1,81 +1,142 @@
-import { motion } from "framer-motion";
-import { TbBrandGithub, TbBrandLinkedin } from "react-icons/tb";
-import { HiOutlineDocumentDownload } from "react-icons/hi";
-import { RxExternalLink } from "react-icons/rx";
+import { motion, useReducedMotion } from "framer-motion";
+import Link from "next/link";
+import { FiArrowRight, FiGithub, FiLinkedin, FiMail } from "react-icons/fi";
+import { marquee, profile, stats } from "@/lib/data";
+import { Counter, Reveal } from "./ui";
 
 const Hero = () => {
+  const reduce = useReducedMotion();
+  const rise = (delay: number) => ({
+    initial: reduce ? false : { opacity: 0, y: 20 },
+    animate: { opacity: 1, y: 0 },
+    transition: { duration: 0.7, delay, ease: [0.21, 0.47, 0.32, 0.98] },
+  });
+
   return (
-    <section
-      id="home"
-      className="max-w-container mx-auto py-20 mdl:py-44 flex flex-col items-center text-center gap-8 px-4"
-    >
-      <motion.div
-        initial={{ opacity: 0, scale: 0.9 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 0.5 }}
-        className="px-4 py-1.5 rounded-full border border-cyanAccent/20 bg-cyanAccent/5 text-cyanAccent text-xs font-monoFont tracking-widest uppercase"
-      >
-        Available for new engineering challenges
-      </motion.div>
+    <section id="home" className="relative overflow-hidden pt-36 lgl:pt-44">
+      <div
+        aria-hidden
+        className="bg-grid pointer-events-none absolute inset-0 -z-10"
+      />
+      <div
+        aria-hidden
+        className="pointer-events-none absolute left-1/2 top-24 -z-10 h-[520px] w-[820px] -translate-x-1/2 rounded-full bg-accent/10 blur-[140px]"
+      />
+      <div
+        aria-hidden
+        className="pointer-events-none absolute right-[10%] top-60 -z-10 h-[300px] w-[300px] rounded-full bg-violet/10 blur-[120px]"
+      />
 
-      <motion.h1
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6, delay: 0.2 }}
-        className="text-5xl lgl:text-8xl font-titleFont font-black leading-tight tracking-tight"
-      >
-        <span className="text-white block">Md Amaan Ghazi.</span>
-        <span className="text-gradient block mt-2">
-          Architecting Scalable SaaS.
-        </span>
-      </motion.h1>
+      <div className="mx-auto flex max-w-container flex-col items-center px-5 text-center">
+        <motion.div {...rise(0)}>
+          <Link
+            href="/projects/smriti"
+            className="group inline-flex items-center gap-2 rounded-full border border-line bg-white/[0.03] py-1.5 pl-2 pr-4 text-xs text-white/80 transition-colors hover:border-accent/40"
+          >
+            <span className="flex items-center gap-1.5 rounded-full bg-emerald-400/10 px-2 py-0.5 font-semibold text-emerald-300">
+              <span className="h-1.5 w-1.5 animate-pulseDot rounded-full bg-emerald-400" />{" "}
+              Live
+            </span>
+            Smriti, my AI revision coach, now has real users
+            <FiArrowRight className="transition-transform group-hover:translate-x-0.5" />
+          </Link>
+        </motion.div>
 
-      <motion.p
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6, delay: 0.3 }}
-        className="max-w-[700px] text-lg lgl:text-xl text-textDark font-medium leading-relaxed"
-      >
-        With <span className="text-white">2+ years of experience</span> building scalable digital ecosystems, I architect high-performance <span className="text-white">Frontend systems</span> and real-time platforms.
-        Currently leading core modules at{" "}
-        <a
-          href="https://eventify.io/"
-          target="_blank"
-          className="text-cyanAccent hover:text-fuchsiaAccent duration-300 font-bold inline-flex items-center gap-1"
+        <motion.h1
+          {...rise(0.1)}
+          className="mt-8 font-titleFont text-5xl font-bold leading-[1.05] tracking-tight text-white sml:text-6xl lgl:text-8xl"
         >
-          @Eventify <RxExternalLink />
-        </a>
-        , delivering products for <span className="text-white">10k+ concurrent users</span>.
-      </motion.p>
+          {profile.name}
+        </motion.h1>
+        <motion.p
+          {...rise(0.2)}
+          className="mt-4 font-titleFont text-2xl font-semibold tracking-tight lgl:text-4xl"
+        >
+          <span className="text-gradient">{profile.role}</span>{" "}
+          <span className="block text-white/40 sml:inline">for {profile.focus}</span>
+        </motion.p>
 
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6, delay: 0.4 }}
-        className="flex flex-wrap justify-center gap-4 mt-4"
-      >
-        <a href="#project">
-          <button className="px-8 py-4 glass-card border-none bg-cyanAccent text-bodyColor font-bold text-sm tracking-widest hover:bg-white duration-300 shadow-accent-glow">
-            VIEW PROJECTS
-          </button>
-        </a>
-        <a href="/assets/Resume - Md Amaan Ghazi.pdf" target="_blank">
-          <button className="px-8 py-4 rounded-2xl border border-white/10 hover:border-white/20 hover:bg-white/5 text-white flex items-center gap-2 font-bold text-sm tracking-widest transition-all duration-300">
-            <HiOutlineDocumentDownload className="text-xl" /> RESUME
-          </button>
-        </a>
-        <div className="flex gap-4 items-center pl-4 border-l border-white/10">
-          <a href="https://github.com/Amaanghazi22" target="_blank" className="text-2xl text-textDark hover:text-cyanAccent duration-300">
-            <TbBrandGithub />
+        <motion.p
+          {...rise(0.3)}
+          className="mt-6 max-w-2xl text-base leading-relaxed text-muted lgl:text-lg"
+        >
+          I build products end to end, from React interfaces to PHP and Node
+          APIs to Cloudflare infrastructure. I own core modules of{" "}
+          <a
+            href="https://eventify.io/"
+            target="_blank"
+            rel="noreferrer"
+            className="link-underline text-white"
+          >
+            Eventify
           </a>
-          <a href="https://linkedin.com/in/md-amaan-ghazi-722313263" target="_blank" className="text-2xl text-textDark hover:text-cyanAccent duration-300">
-            <TbBrandLinkedin />
+          , an event-management SaaS, and I ship AI products real people use.
+        </motion.p>
+
+        <motion.div
+          {...rise(0.4)}
+          className="mt-10 flex flex-wrap items-center justify-center gap-3"
+        >
+          <a href="#work" className="btn-primary">
+            See my work <FiArrowRight />
           </a>
+          <a href="#contact" className="btn-ghost">
+            Get in touch
+          </a>
+          <div className="ml-1 flex items-center gap-1">
+            {[
+              { href: profile.github, icon: <FiGithub />, label: "GitHub" },
+              {
+                href: profile.linkedin,
+                icon: <FiLinkedin />,
+                label: "LinkedIn",
+              },
+              {
+                href: `mailto:${profile.email}`,
+                icon: <FiMail />,
+                label: "Email",
+              },
+            ].map((s) => (
+              <a
+                key={s.label}
+                href={s.href}
+                target="_blank"
+                rel="noreferrer"
+                aria-label={s.label}
+                className="grid h-11 w-11 place-items-center rounded-full text-lg text-muted transition-all duration-300 hover:-translate-y-0.5 hover:bg-white/[0.06] hover:text-white"
+              >
+                {s.icon}
+              </a>
+            ))}
+          </div>
+        </motion.div>
+      </div>
+
+      <div className="mx-auto mt-20 max-w-container px-5">
+        <Reveal delay={0.2} className="grid grid-cols-2 gap-px overflow-hidden rounded-3xl border border-line bg-line lgl:grid-cols-4">
+          {stats.map((s) => (
+            <div key={s.label} className="group bg-ink p-6 transition-colors duration-300 hover:bg-surface lgl:p-8">
+              <div className="font-titleFont text-4xl font-bold text-white transition-colors group-hover:text-accent lgl:text-5xl">
+                <Counter value={s.value} suffix={s.suffix} />
+              </div>
+              <p className="mt-2 text-sm text-muted">{s.label}</p>
+            </div>
+          ))}
+        </Reveal>
+      </div>
+
+      <div className="relative mt-16 overflow-hidden py-6 [mask-image:linear-gradient(90deg,transparent,black_15%,black_85%,transparent)]">
+        <div className="flex w-max animate-marquee gap-3 hover:[animation-play-state:paused]">
+          {[...marquee, ...marquee].map((t, i) => (
+            <span
+              key={i}
+              className="whitespace-nowrap rounded-full border border-line bg-white/[0.02] px-4 py-2 font-monoFont text-xs text-white/60 transition-colors hover:border-accent/40 hover:text-accent"
+            >
+              {t}
+            </span>
+          ))}
         </div>
-      </motion.div>
-
-      {/* Decorative Blur Orbs */}
-      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-cyanAccent/10 blur-[120px] rounded-full pointer-events-none -z-10"></div>
+      </div>
     </section>
   );
 };

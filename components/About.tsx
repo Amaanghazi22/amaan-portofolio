@@ -1,61 +1,38 @@
-import { profileImg } from "@/public/assets";
 import Image from "next/image";
-import { AiFillThunderbolt } from "react-icons/ai";
+import { profileImg } from "@/public/assets";
+import { about } from "@/lib/data";
+import { Reveal, SectionHeading } from "./ui";
 
-const About = () => {
-  return (
-    <section
-      id="about"
-      className="max-w-containerSmall mx-auto py-24 px-4 flex flex-col gap-12"
-    >
-      <div className="flex flex-col mb-4">
-        <h2 className="text-4xl lgl:text-6xl font-titleFont font-black text-white tracking-tight">
-          About My Craft<span className="text-cyanAccent">.</span>
-        </h2>
-      </div>
-
-      <div className="flex flex-col lgl:flex-row gap-16 items-start">
-        <div className="w-full lgl:w-2/3 text-lg text-textDark font-medium flex flex-col gap-6 leading-relaxed">
-          <p>
-            I am a <span className="text-white">Frontend Engineer</span> bridge-building between complex backend systems and intuitive user interfaces. With <span className="text-cyanAccent">2 years of intensive experience</span> in the SaaS ecosystem, I have developed a deep focus on building scalable architectures that don't just work, but excel under load.
-          </p>
-          <p>
-            My philosophy centers on <span className="text-white">Product Engineering</span>—understanding the business logic and user lifecycle to build code that drives measurable growth. At <span className="text-cyanAccent">TeksMobile</span>, this mindset translated into a <span className="text-white">30% engagement increase</span> by architecting core modules for the Eventify platform.
-          </p>
-
-          <div className="p-6 rounded-3xl bg-cyanAccent/5 border border-cyanAccent/10 backdrop-blur-sm">
-            <h4 className="text-white font-bold mb-4 flex items-center gap-2">
-              <span className="text-cyanAccent text-xl"><AiFillThunderbolt /></span>
-              Beyond the Code
-            </h4>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 font-monoFont text-sm">
-              <div className="space-y-1">
-                <span className="text-white block font-bold">DSA Proficiency</span>
-                <span className="text-textDark">300+ LeetCode problems solved focusing on algorithmic efficiency.</span>
-              </div>
-              <div className="space-y-1">
-                <span className="text-white block font-bold">Certification</span>
-                <span className="text-textDark">Mastering Data Structures — Udemy (2024).</span>
-              </div>
+const About = () => (
+  <section id="about" className="mx-auto max-w-container px-5 py-28">
+    <SectionHeading kicker="About" title="A builder who cares about the whole product" />
+    <div className="grid items-start gap-12 lgl:grid-cols-[1fr_340px]">
+      <Reveal className="flex flex-col gap-6 text-lg leading-relaxed text-muted">
+        {about.paragraphs.map((p) => (
+          <p key={p}>{p}</p>
+        ))}
+        <div className="mt-2 grid gap-3 sml:grid-cols-3">
+          {about.extras.map((e) => (
+            <div key={e.title} className="rounded-2xl border border-line bg-white/[0.02] p-4 transition-colors hover:border-white/15">
+              <p className="font-monoFont text-[11px] uppercase tracking-[0.15em] text-accent">{e.title}</p>
+              <p className="mt-1 text-sm text-white/80">{e.text}</p>
             </div>
-          </div>
+          ))}
         </div>
-
-        <div className="w-full lgl:w-1/3 group">
-          <div className="relative aspect-square">
-            <div className="absolute inset-0 rounded-3xl border-2 border-cyanAccent transform translate-x-4 translate-y-4 group-hover:translate-x-2 group-hover:translate-y-2 duration-500 opacity-20"></div>
-            <div className="relative w-full h-full glass-card p-2 overflow-hidden">
-              <Image
-                className="rounded-2xl h-full w-full object-cover grayscale transition-all duration-700 group-hover:grayscale-0 group-hover:scale-110"
-                src={profileImg}
-                alt="profileImg"
-              />
-            </div>
-          </div>
+      </Reveal>
+      <Reveal delay={0.1} className="group relative mx-auto w-full max-w-[340px]">
+        <div aria-hidden className="absolute -inset-1 rounded-[2rem] bg-gradient-to-br from-accent/40 via-transparent to-violet/40 opacity-50 blur transition-opacity duration-500 group-hover:opacity-100" />
+        <div className="relative aspect-square overflow-hidden rounded-[2rem] border border-line">
+          <Image
+            src={profileImg}
+            alt="Md Amaan Ghazi"
+            className="h-full w-full object-cover grayscale transition-all duration-700 group-hover:scale-105 group-hover:grayscale-0"
+            placeholder="blur"
+          />
         </div>
-      </div>
-    </section>
-  );
-};
+      </Reveal>
+    </div>
+  </section>
+);
 
 export default About;

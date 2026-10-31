@@ -1,53 +1,43 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: [
-    "./app/**/*.{js,ts,jsx,tsx}",
-    "./pages/**/*.{js,ts,jsx,tsx}",
-    "./components/**/*.{js,ts,jsx,tsx}",
-  ],
+  content: ["./pages/**/*.{js,ts,jsx,tsx}", "./components/**/*.{js,ts,jsx,tsx}", "./lib/**/*.{js,ts}"],
   theme: {
-    maxWidth: {
-      container: "1440px",
-      contentContainer: "1140px",
-      containerSmall: "1024px",
-      containerxs: "768px",
-    },
     extend: {
+      maxWidth: {
+        container: "1200px",
+        prose: "760px",
+      },
       screens: {
         xs: "320px",
-        sm: "375px",
         sml: "500px",
-        md: "667px",
         mdl: "768px",
-        lg: "960px",
         lgl: "1024px",
-        xl: "1280px",
       },
       colors: {
-        bodyColor: "#0A0A0B",
-        textLight: "#F8F8F8",
-        textDark: "#A0A0A0",
-        cyanAccent: "#22D3EE",
-        fuchsiaAccent: "#D946EF",
-        glass: "rgba(255, 255, 255, 0.03)",
-        borderColor: "rgba(255, 255, 255, 0.08)",
+        ink: "#07080A",
+        surface: "#0C0D10",
+        line: "rgba(255, 255, 255, 0.07)",
+        muted: "#9A9AA3",
+        accent: "#22D3EE",
+        violet: "#A78BFA",
+        amber: "#FBBF24",
       },
       fontFamily: {
-        bodyFont: ["Inter", "sans-serif"],
-        titleFont: ["Space Grotesk", "sans-serif"],
-        monoFont: ["Geist Mono", "monospace"],
+        bodyFont: ["Inter", "system-ui", "sans-serif"],
+        titleFont: ["Space Grotesk", "Inter", "sans-serif"],
+        monoFont: ["JetBrains Mono", "ui-monospace", "monospace"],
       },
-      boxShadow: {
-        navbarShadow: " 0 10px 30px -10px rgba(2,12,27,0.7)",
-        "accent-glow": "0 0 40px rgba(34, 211, 238, 0.15)",
-        "premium-card": "0 20px 40px -15px rgba(0, 0, 0, 0.6)",
+      keyframes: {
+        marquee: { from: { transform: "translateX(0)" }, to: { transform: "translateX(-50%)" } },
+        pulseDot: { "0%, 100%": { opacity: "1" }, "50%": { opacity: "0.35" } },
+        shine: { from: { backgroundPosition: "200% 0" }, to: { backgroundPosition: "-200% 0" } },
       },
-      backgroundImage: {
-        "gradient-conic": "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
-        "hero-gradient": "radial-gradient(circle at 50% 50%, rgba(34, 211, 238, 0.12) 0%, transparent 60%)",
-        "text-gradient": "linear-gradient(to right, #22D3EE, #F8F8F8, #D946EF)",
+      animation: {
+        marquee: "marquee 40s linear infinite",
+        pulseDot: "pulseDot 2s ease-in-out infinite",
+        shine: "shine 6s linear infinite",
       },
     },
   },
-  plugins: [require("tailwind-scrollbar")],
+  plugins: [],
 };
