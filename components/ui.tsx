@@ -70,21 +70,23 @@ export const SpotlightCard = ({
   );
 };
 
-// Counts up from zero the first time it scrolls into view.
+// Counts up from zero the first time it scrolls into view, keeping the value's decimals (2.5 stays 2.5).
 export const Counter = ({ value, suffix = "" }: { value: number; suffix?: string }) => {
   const ref = useRef<HTMLSpanElement>(null);
   const inView = useInView(ref, { once: true });
   const reduce = useReducedMotion();
   const [shown, setShown] = useState(0);
+  const decimals = (String(value).split(".")[1] ?? "").length;
+  const step = 10 ** decimals;
   useEffect(() => {
     if (!inView) return;
     if (reduce) return setShown(value);
-    const controls = animate(0, value, { duration: 1.6, ease: "easeOut", onUpdate: (v) => setShown(Math.round(v)) });
+    const controls = animate(0, value, { duration: 1.6, ease: "easeOut", onUpdate: (v) => setShown(Math.round(v * step) / step) });
     return () => controls.stop();
-  }, [inView, reduce, value]);
+  }, [inView, reduce, value, step]);
   return (
     <span ref={ref} className="tabular-nums">
-      {shown.toLocaleString("en-IN")}
+      {shown.toLocaleString("en-IN", { minimumFractionDigits: decimals, maximumFractionDigits: decimals })}
       {suffix}
     </span>
   );

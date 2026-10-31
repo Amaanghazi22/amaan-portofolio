@@ -17,7 +17,7 @@ export const smritiLinks = {
 };
 
 export const stats = [
-  { value: 2, suffix: "+", label: "years shipping production SaaS" },
+  { value: 2.5, suffix: "+", label: "years shipping production SaaS" },
   { value: 1500, suffix: "+", label: "commits across Eventify codebases" },
   { value: 7, suffix: "", label: "production codebases worked in" },
   { value: 327, suffix: "", label: "automated tests in my AI product" },
